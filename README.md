@@ -16,6 +16,10 @@ The goal is to:
 - Use as few vehicles as possible
 
 ---
+## Implementation
+Each ant builds a solution by creating multiple delivery routes, where each route starts and ends at the central depot. As the ant adds customers to a route, it keeps track of how much load the vehicle is carrying. If adding another customer would exceed the vehicle’s capacity, the current route ends and a new vehicle starts from the depot. This way, all customers are served without violating capacity limits. The decision of which customer to visit next is based on both pheromone levels and the distance to each customer. Once all routes are built, the total distance across all vehicles is calculated, this is what the algorithm tries to minimize. After each iteration, pheromones are updated so that future ants are more likely to follow better routes, leading to gradually improved solutions over time.
+
+I started with the ACO algorithm we used in the practicals for solving the Traveling Salesman Problem. In that version, each ant built a single tour visiting all cities once. But since VRP involves delivering goods using multiple vehicles with limited capacity i made some changes to it. First, I modified the way solutions are built so that each ant creates multiple routes instead of one long tour. Each route starts and ends at the central depot, and I added logic to keep track of how much load each vehicle is carrying. If the next customer’s demand would exceed the vehicle’s capacity, the vehicle returns to the depot and a new route begins. I also changed the fitness function so it calculates the total distance of all routes combined, rather than just one tour.  Also now the pheromone updates reinforce all edges used in the ant’s full solution, not just a single path. Instead of reading city coordinates from a CSV like in the tutorial, I wrote a parser that loads structured input from XML files, including the depot, customer demands, and vehicle capacity. Also I made the results easier to interpret, like convergence graphs and text files showing the best routes for each input. 
 
 
 ##  How to Run
